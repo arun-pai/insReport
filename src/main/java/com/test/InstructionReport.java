@@ -1,6 +1,7 @@
 package com.test;
 
 import java.text.DateFormat;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -29,11 +30,11 @@ public class InstructionReport {
         Map<String, Double> outgoingEntity = new HashMap<>();
 
         for( InstructionBuySell instructionBuySell : instructionBuySellList) {
-            if (instructionBuySell.getBuyOrSell().equalsIgnoreCase("S")) {
+            if (instructionBuySell.isInstructionBuy()) {
                 instructionBuySell.addAmountToMap(incomingByDay);
                 instructionBuySell.addEntityToMap(incomingEntity);
             }
-            if (instructionBuySell.getBuyOrSell().equalsIgnoreCase("B")) {
+            if (instructionBuySell.isInstructionSell()) {
                 instructionBuySell.addAmountToMap(outgoingByDay);
                 instructionBuySell.addEntityToMap(outgoingEntity);
             }
@@ -55,10 +56,10 @@ public class InstructionReport {
         System.out.println("Outgoing EveryDay:");
         printDayWiseReport(outgoingByDaySorted);
 
-        System.out.println("Incoming Ranks:");
+        System.out.println("Incoming Entity Ranks:");
         printRankReport(incomingRanks);
 
-        System.out.println("Outgoing Ranks:");
+        System.out.println("Outgoing Entity Ranks:");
         printRankReport(outgoingRanks);
 
     }
@@ -66,13 +67,15 @@ public class InstructionReport {
     public static <K, V> void printDayWiseReport(Map<K, V> map) {
         for (Map.Entry<K, V> entry : map.entrySet()) {
             DateFormat dateFormat = new SimpleDateFormat("dd MMM yyyy", Locale.ENGLISH);
-            System.out.println( dateFormat.format((Date)entry.getKey()) + "  => " + entry.getValue());
+            System.out.println( dateFormat.format((Date)entry.getKey()) + "  => " + NumberFormat.getCurrencyInstance
+                    (new Locale("en", "US")).format(entry.getValue()));
         }
     }
 
     public static <K, V> void printRankReport(Map<K, V> map) {
         for (Map.Entry<K, V> entry : map.entrySet()) {
-            System.out.println(entry.getKey() + "  => " + entry.getValue());
+            System.out.println(entry.getKey() + "  => " + NumberFormat.getCurrencyInstance
+                    (new Locale("en", "US")).format(entry.getValue()));
         }
     }
 }

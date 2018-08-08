@@ -30,6 +30,9 @@ public class InstructionBuySell {
 
     private double amount;
 
+    private static final String C_INSTRUCTION_BUY = "B";
+    private static final String C_INSTRUCTION_SELL = "S";
+
     InstructionBuySell (String entity, String buyOrSell, double agreedFx, String currency,
                         String instructionDate, String settlementDate, long units, double pricePerUnit) {
         DateFormat dateFormat = new SimpleDateFormat("dd MMM yyyy", Locale.ENGLISH);
@@ -90,6 +93,14 @@ public class InstructionBuySell {
         } else {
             map.put(entity,map.get(entity) + amount);
         }
+    }
+
+    public boolean isInstructionBuy() {
+        return (buyOrSell.equalsIgnoreCase(C_INSTRUCTION_BUY));
+    }
+
+    public boolean isInstructionSell() {
+        return (buyOrSell.equalsIgnoreCase(C_INSTRUCTION_SELL));
     }
 
     public String getEntity() {
