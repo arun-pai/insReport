@@ -1,4 +1,4 @@
-package com.test;
+package com.insreport;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
